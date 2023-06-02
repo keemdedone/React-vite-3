@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.scss";
+import { data } from "./model/data";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState<number>(0);
+  const [seclectType, setSeclectType] = useState<number>(0);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="select-group">
+        {data.map((info, i) => (
+          <button onClick={() => setSeclectType(i)}>{info.name}</button>
+        ))}
       </div>
-      <h1>Vite + React</h1>
+      <h2>{data[seclectType].name}</h2>
+      <table className="rs-table">
+        <tr>
+          <th>Level</th>
+          <th>Total Caphars</th>
+        </tr>
+        <tr>
+          <td>{count + 1}</td>
+          <td>{data[seclectType].caphars[count]}</td>
+        </tr>
+      </table>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button
+          onClick={() => setCount((count) => (count !== 0 ? count - 1 : 0))}
+        >
+          -
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button
+          onClick={() => setCount((count) => (count !== 19 ? count + 1 : 19))}
+        >
+          +
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
