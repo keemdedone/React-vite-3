@@ -7,16 +7,42 @@
 
 .card {
   padding: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .level-input {
+    max-width: 80px;
+
+    .css-ume8vi-MuiInputBase-input-MuiInput-input {
+      color: #fff;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
 }
 
-.rs-table {
+.rs-table,
+.list-table {
   text-align: center;
   margin: auto;
   border-collapse: collapse;
 
   th,
   td {
-    padding: 5px 10px;
+    padding: 3px 15px;
     border: 1px solid #fff;
   }
 }
