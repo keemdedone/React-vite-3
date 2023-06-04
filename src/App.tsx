@@ -13,7 +13,8 @@ const darkTheme = createTheme({
 import "./App.scss";
 
 function App() {
-  const [count, setCount] = useState<number>(0);
+  const [currentLV, setCurrentLV] = useState<number>(0);
+  const [targetLV, setTargetLV] = useState<number>(0);
   const [seclectType, setSeclectType] = useState<number>(0);
 
   return (
@@ -24,7 +25,6 @@ function App() {
             key={info.id}
             onClick={() => {
               setSeclectType(i);
-              setCount(0);
             }}
           >
             {info.name}
@@ -35,42 +35,59 @@ function App() {
       <table className="rs-table">
         <thead>
           <tr>
-            <th>Level</th>
-            <th>Total Caphars</th>
+            <th>Level different</th>
+            <th>Use total Caphars</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{count + 1}</td>
-            <td>{data[seclectType].caphars[count]}</td>
+            <td>{targetLV - currentLV >= 0 ? targetLV - currentLV : 0}</td>
+            <td>
+              {targetLV - currentLV <= 0
+                ? 0
+                : data[seclectType].caphars[targetLV - 1] -
+                  (currentLV - 1 < 0
+                    ? 0
+                    : data[seclectType].caphars[currentLV - 1])}
+            </td>
           </tr>
         </tbody>
       </table>
       <div className="card">
-        <button
-          onClick={() => setCount((count) => (count > 0 ? count - 1 : 0))}
-        >
-          -
-        </button>
+        <h3>Current level :</h3>
         <TextField
           color="success"
           type="number"
           variant="standard"
           className="level-input"
-          value={count + 1}
-          InputProps={{ inputProps: { min: 1, max: 20, length: 2 } }}
+          value={currentLV < 0 ? "" : currentLV}
+          InputProps={{ inputProps: { min: 0, max: 20, length: 2 } }}
           onChange={(lv) => {
             const input = Number(lv.target.value);
-            if (input < 21 && input > 0) {
-              setCount(input - 1);
-            }
+            console.log("current : " + input);
+            setCurrentLV(input);
           }}
         />
-        <button
-          onClick={() => setCount((count) => (count < 19 ? count + 1 : 19))}
-        >
-          +
-        </button>
+        <h3>Wanted level : </h3>
+        <TextField
+          color="success"
+          type="number"
+          variant="standard"
+          className="level-input"
+          value={
+            targetLV < 0
+              ? ""
+              : targetLV < currentLV
+              ? setTargetLV(currentLV)
+              : targetLV
+          }
+          InputProps={{ inputProps: { min: 0, max: 20, length: 2 } }}
+          onChange={(lv) => {
+            const input = Number(lv.target.value);
+            console.log("target : " + input);
+            setTargetLV(input);
+          }}
+        />
       </div>
       <div>
         <table className="list-table">
@@ -82,6 +99,11 @@ function App() {
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
             {data[seclectType].caphars.map((_, i) => (
               <tr key={i}>
                 <td>{i + 1}</td>
